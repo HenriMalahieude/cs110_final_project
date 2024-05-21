@@ -1,0 +1,50 @@
+.navigation-bar {
+	position: absolute;
+	top: 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 2em;
+	width: 100%;
+	z-index: 1000;
+	background-color: rgba(100, 200, 250, 255);	
+	color: black;
+}
+
+.navbar-container {
+	display: flex;
+	flex-direction: row;
+	width: 50%;
+}
+
+.navbar-logo {
+	position: absolute;
+	top: 0;
+	left: 47%;
+	height: 100%;
+}
+
+.navbar-logo img {
+	width: auto;
+	height: 100%;
+	filter: grayscale();
+	background-color: rgba(100, 100, 150, 255);
+}
+
+.navbar-element {
+	padding-left: 1em;
+	margin-left: 1em;
+
+	padding-right: 1em;
+	margin-right: 1em;
+
+	padding-top: 0.25em;
+	padding-bottom: 0.25em;
+	border-radius: 5px;
+	background-color: rgba(200, 200, 250, 255);
+	color: black;
+}
+
+#profile-part {
+	justify-content: flex-end;
+}
