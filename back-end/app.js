@@ -1,6 +1,4 @@
 require('dotenv').config(); //load a .env file into the server
-//NOTE: .env file is ignored by git, so if you don't have the MongoDB api key just ask me -Henri
-//using it: process.env.MONGO_KEY = "asdlfja;ldsjfl;kasdjf;lkajsd;klfjakl;sdjf;lkajsdflk";
 
 const express = require("express");
 const cors = require("cors");
