@@ -7,9 +7,24 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/message", (req, res) => {
-	console.log("Getting page!");
-	res.json({message: "Hello world!"});
+app.get("/getQuestions", (req, res) => {
+	console.log("Getting Questions in a Nice JSON format!");
+	res.status(200).send("TODO");
+})
+
+app.get("/getProfile/:username", (req, res) => {
+	console.log("Getting a user known as " + req.params.username);
+	res.status(200).send("TODO");
+})
+
+app.get("/getQuestion/:questionId", (req, res) => {
+	console.log("Getting question w/ id: " + req.params.questionId);
+	res.status(200).send("TODO");
+})
+
+app.get("/getComments/:questionId", (req, res) => {
+	console.log("Getting comments attached to question w/id: " + req.params.questionId);
+	res.status(200).send("TODO");
 })
 
 const PORT = process.env.PORT || 8080;
