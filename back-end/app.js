@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/getQuestions", (req, res) => {
+app.get("/getQuestionBoard", (req, res) => {
 	console.log("Getting Questions in a Nice JSON format!");
 	res.status(200).send("TODO");
 })
@@ -24,6 +24,13 @@ app.get("/getQuestion/:questionId", (req, res) => {
 
 app.get("/getComments/:questionId", (req, res) => {
 	console.log("Getting comments attached to question w/id: " + req.params.questionId);
+	res.status(200).send("TODO");
+})
+
+app.use(express.json())
+app.post("/createQuestion", (req, res) => {
+	console.log("Asked to create question with specified info:");
+	console.log(req.body);
 	res.status(200).send("TODO");
 })
 

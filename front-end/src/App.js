@@ -24,7 +24,7 @@ function App() {
         <Route exact path="/" element={<Home />} />
         <Route path="/board" element={<QuestionBoard />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/question" element={<QuestionDisplay />} />
+        <Route path="/question/:questionId" element={<QuestionDisplay />} />
         <Route path="/newQuestion" element={<QuestionCreation />} />
       </Routes>
     </Router>
