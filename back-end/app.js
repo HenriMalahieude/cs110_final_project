@@ -1,13 +1,20 @@
-require('dotenv').config(); // Load a .env file into the server
-
+require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require('mongoose');
+const passport = require('passport');
+const session = require('express-session');
+
+require('./config/passport');
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.use(session({ secret: 'secret', resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -24,7 +31,6 @@ app.use('/auth', authRouter);
 app.use('/admin', adminRouter);
 app.use('/items', itemsRouter);
 
-// Add this route to handle requests to the root URL
 app.get("/", (req, res) => {
     res.send("Welcome to the CS110 Final Project Backend!");
 });
