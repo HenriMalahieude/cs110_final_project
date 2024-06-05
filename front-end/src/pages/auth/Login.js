@@ -4,16 +4,24 @@ import axios from 'axios';
 const Login = ({ setToken }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [message, setMessage] = useState('');
 
     const onSubmit = async (e) => {
         e.preventDefault();
         try {
             const response = await axios.post('http://localhost:8080/auth/login', { username, password });
             setToken(response.data.token);
-            console.log(response.data);
+            setMessage('Login successful!');
+            setError('');
         } catch (error) {
-            console.error(error);
+            setError(error.response.data.error || 'Login failed. Please try again.');
+            setMessage('');
         }
+    };
+
+    const googleLogin = () => {
+        window.location.href = 'http://localhost:8080/auth/google';
     };
 
     return (
@@ -30,6 +38,9 @@ const Login = ({ setToken }) => {
                 </div>
                 <button type="submit">Login</button>
             </form>
+            <button onClick={googleLogin}>Login with Google</button>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {message && <p style={{ color: 'green' }}>{message}</p>}
         </div>
     );
 };
