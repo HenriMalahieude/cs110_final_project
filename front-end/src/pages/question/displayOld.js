@@ -39,16 +39,14 @@ for (let i = 0; i < 12; i++) {
 	});
 } // */
 
-function InteractionClick(onState, compare, setter) {
-	if (compare == onState) {
-		setter(0);
-		return;
-	}
+function PostComment(content, localUpdate) {
 
-	setter(onState);
 }
 
-function QuestionContent({username, userimg, title, date, details, imode, setIMode}) {
+function QuestionContent({username, userimg, title, date, details, interactBool, setInteraction, addUsergen}) {
+	let qc_interactive_display = interactBool ? "flex" : "none";
+	let textbox_content = "";
+
 	return (<>	
 		<div className="q-content">
 			<div className="qc-meta">
@@ -67,14 +65,22 @@ function QuestionContent({username, userimg, title, date, details, imode, setIMo
 				</div>
 			</div>
 
-			<div className="qc-interactive">
-				<input type="text" placeholder="Interact with post..." className="interaction-txtbox"/>
-				<button className="new-comment-button" onClick={() => InteractionClick(1, imode, setIMode)}>
-					Add Comment
-				</button>
-				<button className="new-answer-button" onClick={() => InteractionClick(2, imode, setIMode)}>
-					Answer
-				</button>
+			<div className="qc-interactive" style={{display: qc_interactive_display}}>
+				<textarea placeholder="Interact with post..." className="interaction-txtbox" onChange={(e) => {textbox_content = e.target.value;}}/>
+				<div className="qci-button-container">
+					<button className="new-comment-button" onClick={() => {alert(textbox_content)}}>
+						Add Comment
+					</button>
+					<button className="new-answer-button" onClick={() => {alert(textbox_content)}}>
+						Add Answer
+					</button>
+				</div>
+			</div>
+
+			<div className="qc-interactbutton-container">
+				<button className="interact-button" onClick={() => {setInteraction(!interactBool)}}>
+					{!interactBool ? "Interact" : "Close"}
+				</button> 
 			</div>
 		</div>
 	</>)
@@ -132,7 +138,7 @@ function Comments({content}) {
 	}
 
 	if (comments.length <= 0) {
-		comments.push(<Comment content="There are no comments on this question"/>);
+		comments.push(<Comment key={0} content="There are no comments on this question"/>);
 	}
 
 	return (<>
@@ -143,7 +149,7 @@ function Comments({content}) {
 }
 
 function GetQuestionDetails(questionId, setUsername, setProfilePicture, setTitle, setDate, setDetails, setAnswers) {
-	fetch(`http://localhost:8080/getQuestion/${questionId}`)
+	fetch(`http://localhost:8080/question/${questionId}`)
 	.then(res => res.json())
 	.then((data) => {
 		setUsername(data.author_username);
@@ -152,6 +158,7 @@ function GetQuestionDetails(questionId, setUsername, setProfilePicture, setTitle
 		setDate(data.date);
 		setDetails(data.details);
 		setAnswers(data.answers);
+		setComments(data.comments);
 	})
 }
 
@@ -168,9 +175,9 @@ export function QuestionDisplay() {
 	const [tle, setTitle] = useState("Loading...");
 	const [dte, setDate] = useState("00/00/0000");
 	const [dtls, setDetails] = useState("Loading...");
-	const [anwers, setAnswers] = useState({});
-	const [cmnts, setComments] = useState({});
-	const [imode, setInteractionMode] = useState(0);
+	const [anwers, setAnswers] = useState([]);
+	const [cmnts, setComments] = useState([]);
+	const [imode, setInteraction] = useState(false);
 
 	const match = useMatch("/question/:questionId");
 	useEffect(() => {
@@ -178,13 +185,29 @@ export function QuestionDisplay() {
 		//GetComments(match.params.questionId, setComments)
 	}, [match, setUsername, setProfilePicture, setTitle, setDate, setDetails, setAnswers, setComments]);
 
+	function addUserGenLocal(answer, comment) {
+		if (answer) {
+			let nanwers = JSON.parse(JSON.stringify(anwers));
+			nanwers.push(answer);
+
+			setAnswers(nanwers);
+		}
+
+		if (comment) {
+			let ncmnts = JSON.parse(JSON.stringify(cmnts))
+			ncmnts.push(comment)
+
+			setComments(ncmnts);
+		}
+	}
+
 	return (<div className="all-content">
 		<div className="main-content">
-			<QuestionContent username={usrnm} userimg={pfp} title={tle} date={dte} details={dtls} />
-			<AnswersSection content={testAnswers} />
+			<QuestionContent username={usrnm} userimg={pfp} title={tle} date={dte} details={dtls} interactBool={imode} setInteraction={setInteraction} addUsergen={addUserGenLocal}/>
+			<AnswersSection content={anwers} />
 		</div>
 		<div className="comment-content">
-			<Comments content={testComments}/>
+			<Comments content={cmnts}/>
 		</div>
 	</div>);
 }

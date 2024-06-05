@@ -136,3 +136,49 @@
 	font-weight: 200;
 	color: gray;
 }
+
+button {
+	background-color: lightblue;
+	padding: 0.2em;
+	font-weight: bold;
+
+	border: 1px solid aqua;
+	border-radius: 5px;
+}
+
+button:hover {
+	background-color: aqua;
+}
+
+button:active {
+	background-color: white;
+}
+
+.qc-interactive {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	gap: 1em;
+
+	margin-bottom: 1em;
+}
+
+.qc-interactive textarea {
+	min-width: 70%;
+	max-width: 85%;
+	min-height: 2em;
+	text-align: left;
+	border-radius: 5px;
+}
+
+.qc-interactbutton-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+}
+
+.qci-button-container {
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+}
