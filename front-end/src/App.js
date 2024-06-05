@@ -24,13 +24,13 @@ function App() {
   return (
     <>
       <Router>
-        <NavBar />
+        <NavBar /> {/* could also get token so we change profile to username text instead */}
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/board" element={<QuestionBoard />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/question/:questionId" element={<QuestionDisplay />} />
-          <Route path="/newQuestion" element={<QuestionCreation />} />
+          <Route path="/question/:questionId" element={<QuestionDisplay token={token}/>} />
+          <Route path="/newQuestion" element={<QuestionCreation token={token}/>} />
           
           {/* Register, Login, and Admin Actions */}
           <Route path="/register" element={<Register />} />

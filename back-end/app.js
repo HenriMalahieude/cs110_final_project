@@ -19,10 +19,12 @@ connection.once('open', () => {
 const authRouter = require('./routes/auth');
 const adminRouter = require('./routes/admin');
 const itemsRouter = require('./routes/items');
+const singleQuestionRouter = require('./routes/question');
 
 app.use('/auth', authRouter);
 app.use('/admin', adminRouter);
 app.use('/items', itemsRouter);
+app.use('/question', singleQuestionRouter);
 
 // Add this route to handle requests to the root URL
 app.get("/", (req, res) => {
@@ -36,22 +38,6 @@ app.get("/getQuestionBoard", (req, res) => {
 
 app.get("/getProfile/:username", (req, res) => {
     console.log("Getting a user known as " + req.params.username);
-    res.status(200).send("TODO");
-});
-
-app.get("/getQuestion/:questionId", (req, res) => {
-    console.log("Getting question w/ id: " + req.params.questionId);
-    res.status(200).send("TODO");
-});
-
-app.get("/getComments/:questionId", (req, res) => {
-    console.log("Getting comments attached to question w/id: " + req.params.questionId);
-    res.status(200).send("TODO");
-});
-
-app.post("/createQuestion", (req, res) => {
-    console.log("Asked to create question with specified info:");
-    console.log(req.body);
     res.status(200).send("TODO");
 });
 
