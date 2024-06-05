@@ -1,5 +1,5 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
+const passport = require('passport');
 const User = require('../models/user.model');
 const { auth } = require('../middleware/auth');
 
@@ -12,7 +12,7 @@ router.post('/register', async (req, res) => {
         const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
         res.status(201).send({ user, token });
     } catch (error) {
-        res.status(400).send(error);
+        res.status(400).send({ error: 'Username already exists.' });
     }
 });
 
@@ -38,5 +38,13 @@ router.post('/logout', auth, async (req, res) => {
         res.status(500).send(error);
     }
 });
+
+router.get('/google', passport.authenticate('google', { scope: ['profile'] }));
+
+router.get('/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/' }),
+  (req, res) => {
+    res.redirect('/');
+  });
 
 module.exports = router;
