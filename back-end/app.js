@@ -31,7 +31,7 @@ const singleQuestionRouter = require('./routes/question');
 app.use('/auth', authRouter);
 app.use('/admin', adminRouter);
 app.use('/items', itemsRouter);
-app.use('/question', singleQuestionRouter);
+app.use('/post', singleQuestionRouter);
 
 app.get("/", (req, res) => {
     res.send("Welcome to the CS110 Final Project Backend!");

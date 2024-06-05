@@ -19,6 +19,7 @@ import Login from './pages/auth/Login';
 import AdminActions from './pages/admin/AdminActions';
 
 function App() {
+  const [username, setUsername] = useState('');
   const [token, setToken] = useState('');
 
   return (
@@ -34,7 +35,7 @@ function App() {
           
           {/* Register, Login, and Admin Actions */}
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login setToken={setToken} />} />
+          <Route path="/login" element={<Login setToken={setToken} username={username} setUsername={setUsername}/>} />
           <Route path="/admin" element={<AdminActions token={token} />} />
         </Routes>
       </Router>

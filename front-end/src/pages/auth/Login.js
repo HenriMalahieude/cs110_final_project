@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const Login = ({ setToken }) => {
-    const [username, setUsername] = useState('');
+const Login = ({ setToken, username, setUsername }) => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');

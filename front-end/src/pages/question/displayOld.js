@@ -3,13 +3,14 @@ import logo from "../../NavBar/logo.svg"
 import React from "react";
 import { useState, useEffect } from 'react';
 import { useMatch } from "react-router-dom";
+import axios from 'axios';
 
 //Expected Answer format in json form
 /* const testAnswers = [
 	{
 		author_username: "Testing123",
 		pfp_img: logo,
-		date: "11/11/1111",
+		date: Date.now(),
 		content: "ahah",
 	},
 ]
@@ -18,7 +19,7 @@ for (let i = 0; i < 12; i++) {
 	testAnswers.push({
 		author_username: "Testing123",
 		pfp_img: logo,
-		date: "11/11/1111",
+		date: Date.now(),
 		content: "ahah",
 	});
 }
@@ -26,7 +27,7 @@ for (let i = 0; i < 12; i++) {
 const testComments = [
 	{
 		author_username: "testing123",
-		date: "11/11/1111",
+		date: Date.now(),
 		content: "lorem ipsum small comment"
 	},
 ]
@@ -34,18 +35,46 @@ const testComments = [
 for (let i = 0; i < 12; i++) {
 	testComments.push({
 		author_username: "testing123",
-		date: "11/11/1111",
+		date: Date.now(),
 		content: "lorem ipsum small comment"
 	});
 } // */
 
-function PostComment(content, localUpdate) {
-
-}
-
-function QuestionContent({username, userimg, title, date, details, interactBool, setInteraction, addUsergen}) {
+function QuestionContent({token, localUsername, questionId, username, userimg, title, date, details, interactBool, setInteraction, addUsergen}) {
 	let qc_interactive_display = interactBool ? "flex" : "none";
-	let textbox_content = "";
+	const [textbox, setTextbox] = useState("");
+
+	const config = {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		}
+	}
+
+	function CommentClick() {
+		let localComment = {
+			author_username: localUsername,
+			date: Date.now(),
+			content: (' ' + textbox).slice(1), //make copy
+		}
+
+		addUsergen(undefined, localComment);
+		axios.post(`http://localhost:8080/post/${questionId}/comment`, {content: textbox}, config)
+			 .then(() => {setTextbox(''); setInteraction(false);})
+			 .catch((err) => {console.log(err)});
+	}
+
+	function AnswerClick() {
+		let localAnswer = {
+			author_username: localUsername,
+			date: Date.now(),
+			content: (' ' + textbox).slice(1), //make copy
+		}
+
+		addUsergen(localAnswer);
+		axios.post(`http://localhost:8080/post/${questionId}/answer`, {content: textbox}, config)
+			 .then(() => {setTextbox(''); setInteraction(false);})
+			 .catch((err) => {console.log(err)});
+	}
 
 	return (<>	
 		<div className="q-content">
@@ -66,12 +95,12 @@ function QuestionContent({username, userimg, title, date, details, interactBool,
 			</div>
 
 			<div className="qc-interactive" style={{display: qc_interactive_display}}>
-				<textarea placeholder="Interact with post..." className="interaction-txtbox" onChange={(e) => {textbox_content = e.target.value;}}/>
+				<textarea placeholder="Interact with post..." className="interaction-txtbox" onChange={(e) => {setTextbox(e.target.value)}} value={textbox}/>
 				<div className="qci-button-container">
-					<button className="new-comment-button" onClick={() => {alert(textbox_content)}}>
+					<button className="new-comment-button" onClick={() => {CommentClick()}}>
 						Add Comment
 					</button>
-					<button className="new-answer-button" onClick={() => {alert(textbox_content)}}>
+					<button className="new-answer-button" onClick={() => {AnswerClick()}}>
 						Add Answer
 					</button>
 				</div>
@@ -92,7 +121,7 @@ function Answer({username, usrimg, date, content}) {
 			<div className="qc-profile">
 				<img src={usrimg} className="qcp-img" alt="user profile"/>
 				<div className="qcp-username"> {username}</div>
-				<div className="qcp-date">{date}</div>
+				<div className="qcp-date">{new Date(date).toString()}</div>
 			</div>
 			<div className="qc-details">
 				{content}
@@ -123,7 +152,7 @@ function Comment({usern, date, content}) {
 		<div className="comment">
 			<div className="c-meta">
 				<div className="cm-username">{usern}</div>
-				<div className="cm-date">{date}</div>
+				<div className="cm-date">{new Date(date).toString()}</div>
 			</div>
 			<div className="c-details">{content}</div>
 		</div>
@@ -148,12 +177,12 @@ function Comments({content}) {
 	</>)
 }
 
-function GetQuestionDetails(questionId, setUsername, setProfilePicture, setTitle, setDate, setDetails, setAnswers) {
-	fetch(`http://localhost:8080/question/${questionId}`)
+function GetQuestionDetails(questionId, setUsername, setProfilePicture, setTitle, setDate, setDetails, setAnswers, setComments) {
+	fetch(`http://localhost:8080/post/${questionId}`)
 	.then(res => res.json())
 	.then((data) => {
 		setUsername(data.author_username);
-		setProfilePicture(data.pfp_img || logo);
+		setProfilePicture(data.pfp_img || logo); //not sure how we gonna do this anymore
 		setTitle(data.title);
 		setDate(data.date);
 		setDetails(data.details);
@@ -162,18 +191,11 @@ function GetQuestionDetails(questionId, setUsername, setProfilePicture, setTitle
 	})
 }
 
-function GetComments(questionId, setComments) {
-	fetch(`http:localhost:8080/getComments/${questionId}`).then(res => res.json())
-	.then((data) => {
-		setComments(data);
-	})
-}
-
-export function QuestionDisplay() {
+export function QuestionDisplay({token, localUsername}) {
 	const [usrnm, setUsername] = useState("Loading...");
 	const [pfp, setProfilePicture] = useState(logo);
 	const [tle, setTitle] = useState("Loading...");
-	const [dte, setDate] = useState("00/00/0000");
+	const [dte, setDate] = useState(0);
 	const [dtls, setDetails] = useState("Loading...");
 	const [anwers, setAnswers] = useState([]);
 	const [cmnts, setComments] = useState([]);
@@ -181,13 +203,12 @@ export function QuestionDisplay() {
 
 	const match = useMatch("/question/:questionId");
 	useEffect(() => {
-		//GetQuestionDetails(match.params.questionId, setUsername, setProfilePicture, setTitle, setDate, setDetails, setAnswers);
-		//GetComments(match.params.questionId, setComments)
+		GetQuestionDetails(match.params.questionId, setUsername, setProfilePicture, setTitle, setDate, setDetails, setAnswers, setComments);
 	}, [match, setUsername, setProfilePicture, setTitle, setDate, setDetails, setAnswers, setComments]);
 
 	function addUserGenLocal(answer, comment) {
 		if (answer) {
-			let nanwers = JSON.parse(JSON.stringify(anwers));
+			let nanwers = JSON.parse(JSON.stringify(anwers)); //create local copy
 			nanwers.push(answer);
 
 			setAnswers(nanwers);
@@ -203,7 +224,18 @@ export function QuestionDisplay() {
 
 	return (<div className="all-content">
 		<div className="main-content">
-			<QuestionContent username={usrnm} userimg={pfp} title={tle} date={dte} details={dtls} interactBool={imode} setInteraction={setInteraction} addUsergen={addUserGenLocal}/>
+			<QuestionContent 
+				token={token} 
+				localUsername={localUsername} 
+				questionId={match.params.questionId} 
+				username={usrnm} 
+				userimg={pfp} 
+				title={tle} 
+				date={dte} 
+				details={dtls} 
+				interactBool={imode} 
+				setInteraction={setInteraction} 
+				addUsergen={addUserGenLocal}/>
 			<AnswersSection content={anwers} />
 		</div>
 		<div className="comment-content">
