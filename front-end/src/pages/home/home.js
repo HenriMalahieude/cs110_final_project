@@ -25,7 +25,8 @@ export function Home() {
 				<br />				
 			</div>
 			<div className="search-content">
-				<Search />
+				{/* Not including since not fully implemented yet
+				<Search /> */}
 			</div>
 		</div>
 
