@@ -1,0 +1,21 @@
+.username-text {
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
+}
+
+.profile-image {
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-info {
+    display: flex;
+}
+
+.profile-image {
+    margin-right: 1em;
+    width: 192px;
+    height: 192px;
+    border-radius: 90%;
+}
