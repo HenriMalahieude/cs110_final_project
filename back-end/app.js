@@ -37,14 +37,28 @@ app.get("/", (req, res) => {
     res.send("Welcome to the CS110 Final Project Backend!");
 });
 
-app.get("/getQuestionBoard", (req, res) => {
+//NOT DONE
+app.get("/getQuestions", async (req, res) => {
     console.log("Getting Questions in a Nice JSON format!");
-    res.status(200).send("TODO");
+	try {
+		const questions = await Question.find();
+	} catch (error) {
+		console.error(error);
+	} finally {
+        res.status(200).json(questions);
+    }
 });
 
+//NOT DONE
 app.get("/getProfile/:username", (req, res) => {
     console.log("Getting a user known as " + req.params.username);
-    res.status(200).send("TODO");
+    try {
+
+    } catch (error) {
+        console.error(error);
+    } finally {
+        res.status(200).send("TODO");
+    }
 });
 
 const PORT = process.env.PORT || 8080;

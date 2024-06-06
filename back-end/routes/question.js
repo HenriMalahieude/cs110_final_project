@@ -11,7 +11,7 @@ router.get(':questionId', (req, res) => {
 			console.log(err);
 			res.status(404).send(`Could not locate question? (${err})`)
 		});
-})
+});
 
 router.post('/:questionId/comment', auth, (req, res) => {
 	Question.findById(req.params.questionId).then((q) => {

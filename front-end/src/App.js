@@ -5,6 +5,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
+  useRouteLoaderData,
 } from "react-router-dom";
 
 import { Home } from "./pages/home/home.js";
