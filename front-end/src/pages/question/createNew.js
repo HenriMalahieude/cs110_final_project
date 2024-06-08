@@ -1,14 +1,16 @@
 import './new.css'
 import './question.css'
 
+import { Navigate } from 'react-router-dom';
 import { useState } from "react";
 import axios from 'axios';
 
 export function QuestionCreation({token}) {
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState('');
+	const [navigate, setNavigation] = useState('');
 
-	function Post() {
+	async function Post() {
 		if (title == undefined || title.length <= 0) return;
 		if (content == undefined || content.length <= 0) return;
 
@@ -17,13 +19,13 @@ export function QuestionCreation({token}) {
 			content: content,
 		}
 
-		axios.post(`http://localhost:8080/post/new`, question, {header: {Authorization: `Bearer ${token}`}})
-			 .then((data) => {
-				window.location.href = `http://localhost:3000/question/${data.questionId}`;
-			 })
-			 .catch((err) => {
-				console.log(err);
-			 })
+		const data = await axios.post(`http://localhost:8080/post/new`, question, {headers: {'Authorization': `Bearer ${token}`}})
+	
+		setNavigation("/question/" +  data.data.questionId);
+	}
+
+	if (navigate != '') {
+		return <Navigate to={navigate}/>
 	}
 
 	return (<>
