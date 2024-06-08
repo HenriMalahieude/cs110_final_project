@@ -14,6 +14,7 @@ const Login = ({ setToken, username, setUsername }) => {
             setMessage('Login successful!');
             setError('');
         } catch (error) {
+            console.log(error);
             setError(error.response.data.error || 'Login failed. Please try again.');
             setMessage('');
         }

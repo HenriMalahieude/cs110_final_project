@@ -1,4 +1,5 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const User = require('../models/user.model');
 const { auth } = require('../middleware/auth');
@@ -12,6 +13,7 @@ router.post('/register', async (req, res) => {
         const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
         res.status(201).send({ user, token });
     } catch (error) {
+        console.log(error);
         res.status(400).send({ error: 'Username already exists.' });
     }
 });
@@ -25,6 +27,7 @@ router.post('/login', async (req, res) => {
         const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
         res.send({ user, token });
     } catch (error) {
+        console.log(error);
         res.status(500).send(error);
     }
 });
