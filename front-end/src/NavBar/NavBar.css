@@ -53,4 +53,5 @@
 
 #profile-part {
 	justify-content: flex-end;
+	gap: 1em;
 }

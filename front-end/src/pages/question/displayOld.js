@@ -119,7 +119,7 @@ function Answer({username, usrimg, date, content}) {
 	return (<>
 		<div className="qc-container answer">
 			<div className="qc-profile">
-				<img src={usrimg} className="qcp-img" alt="user profile"/>
+				<img src={usrimg || logo} className="qcp-img" alt="user profile"/>
 				<div className="qcp-username"> {username}</div>
 				<div className="qcp-date">{new Date(date).toString()}</div>
 			</div>
@@ -133,7 +133,7 @@ function Answer({username, usrimg, date, content}) {
 function AnswersSection({ content }) {
 	let answers = []
 	for (let i = 0; i < content.length; i++) {
-		answers.push(<Answer key={i} username={content[i].author_username} date={content[i].date} usrimg={content[i].pfp_img} content={content[i].content}/>);
+		answers.push(<Answer key={i} username={content[i].author_username} date={content[i].date} usrimg={content[i].pfp_img} content={content[i].contents}/>);
 	}
 
 	if (answers.length <= 0) {
@@ -163,7 +163,7 @@ function Comments({content}) {
 	let comments = [];
 	for (let i = 0; i < content.length; i++) {
 		let comment = content[i];
-		comments.push(<Comment key={i} usern={comment.author_username} date={comment.date} content={comment.content}/>);
+		comments.push(<Comment key={i} usern={comment.author_username} date={comment.date} content={comment.contents}/>);
 	}
 
 	if (comments.length <= 0) {
@@ -179,13 +179,15 @@ function Comments({content}) {
 
 function GetQuestionDetails(questionId, setUsername, setProfilePicture, setTitle, setDate, setDetails, setAnswers, setComments) {
 	fetch(`http://localhost:8080/post/${questionId}`)
-	.then(res => res.json())
+	.then(res => {
+		return res.json();
+	})
 	.then((data) => {
 		setUsername(data.author_username);
 		setProfilePicture(data.pfp_img || logo); //not sure how we gonna do this anymore
 		setTitle(data.title);
 		setDate(data.date);
-		setDetails(data.details);
+		setDetails(data.contents);
 		setAnswers(data.answers);
 		setComments(data.comments);
 	})
