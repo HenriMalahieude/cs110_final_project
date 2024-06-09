@@ -3,13 +3,16 @@ import Search from "../search/search.js";
 import "./board.css";
 import axios from 'axios';
 
-function QuestionMini ({title, username, date}) {
+function QuestionMini ({title, username, date, id}) {
 	return (<>
+
+		<a href={`http://localhost:8080/${id}`}>
 		<div className="post">
 			<h3 className="title">Question: {title}</h3>
 			<h5 className="uname">Posted By:{username}</h5>
 			<p className="date">date: {date}</p>
 		</div>
+		</a>
 	</>);
 }
 
@@ -19,7 +22,7 @@ async function getQuestionList(arr) {
 		const questions = response.json();
 
 		for await (const question of questions){
-			await arr.push(<QuestionMini title={question.title} username={question.author_username} date={question.date} />);
+			await arr.push(<QuestionMini title={question.title} username={question.author_username} date={question.date} id={question.id}/>);
 		}	
 	} catch (error) {
 		console.log(error);
@@ -31,11 +34,6 @@ export function QuestionBoard() {
 	getQuestionList(questionMinis);
 
 	return (<>
-		<div className="search-section">
-
-			{/* Not including since Not fully implemented yet 
-			<Search />; */}
-		</div>
 		<div className="posts">
 			{questionMinis}
 		</div>

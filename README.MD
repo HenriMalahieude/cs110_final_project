@@ -1,5 +1,22 @@
-This project is our cs110 final Project
+How to run:
+* Create two terminals
+* One terminal navigates to back-end
+* Other terminal navigates to front-end
+* Both run `npm run start`
 
-To run navigate to front-end and run `npm start` and navigate to back-end and run `npm start`
-
-This should start both the front end and back end. From here you will be launched to the website where you can test a couple of things. 
+Contributions:
+* Henri
+  * Individual Question Front-End
+  * Create a Question Front-end
+  * Question Database Schema
+  * Question Back-end Entrypoints
+* Edgar
+  * Authorization Middleware
+  * Login/Register
+  * User Schema
+  * Items (Profile Pictures) Schema
+  * Item Upload Entrypoints
+* Donovan
+  * Question Board
+  * Profile Page Front-end
+  * Board Page Front-end

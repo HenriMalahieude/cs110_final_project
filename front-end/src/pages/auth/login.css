@@ -1,0 +1,15 @@
+.login-section{
+    margin-top: 2em;
+    display: flex;
+    align-items: flex-end;
+}
+
+h3{
+    display: flex;
+    margin-top: 3em;
+    justify-content: center;
+}
+
+button{
+    height: 45px;
+}

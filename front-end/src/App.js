@@ -32,7 +32,6 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/question/:questionId" element={<QuestionDisplay token={token}/>} />
           <Route path="/newQuestion" element={<QuestionCreation token={token}/>} />
-          
           {/* Register, Login, and Admin Actions */}
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login setToken={setToken} username={username} setUsername={setUsername}/>} />

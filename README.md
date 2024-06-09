@@ -17,5 +17,6 @@ Contributions:
   * Items (Profile Pictures) Schema
   * Item Upload Entrypoints
 * Donovan
-  * Question Board/Recommendation
-  * TODO
+  * Question Board
+  * Profile Page Front-end
+  * Board Page Front-end
