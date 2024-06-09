@@ -11,7 +11,7 @@ import { Home } from "./pages/home/home.js";
 import { QuestionBoard } from './pages/board/board.js';
 import { QuestionDisplay } from './pages/question/displayOld.js';
 import { QuestionCreation } from './pages/question/createNew.js';
-import { Profile } from './pages/profile/profile.js';
+import { Profile, ViewProfile } from './pages/profile/profile.js';
 
 // Import the new components
 import Register from './pages/auth/Register';
@@ -27,10 +27,11 @@ function App() {
       <Router>
         <NavBar /> {/* could also get token so we change profile to username text instead */}
         <Routes>
-          <Route exact path="/" element={<Home />} />
+          <Route exact path="/" element={<Home username={username}/>} />
           <Route path="/board" element={<QuestionBoard />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<Profile username={username}/>} />
           <Route path="/question/:questionId" element={<QuestionDisplay token={token}/>} />
+          <Route path="/profile/:username" element={<ViewProfile />} />
           <Route path="/newQuestion" element={<QuestionCreation token={token}/>} />
           {/* Register, Login, and Admin Actions */}
           <Route path="/register" element={<Register />} />

@@ -34,6 +34,8 @@ app.use('/auth', authRouter);
 app.use('/admin', adminRouter);
 app.use('/items', itemsRouter);
 app.use('/post', singleQuestionRouter);
+// app.use('profile', profileRouter);
+// app.use('/questions', manyQuestionsRouter);
 
 app.get("/", (req, res) => {
     res.send("Welcome to the CS110 Final Project Backend!");

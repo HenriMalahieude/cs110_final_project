@@ -6,7 +6,7 @@ import axios from 'axios';
 function QuestionMini ({title, username, date, id}) {
 	return (<>
 
-		<a href={`http://localhost:8080/${id}`}>
+		<a href={`http://localhost:3000/question/${id}`}>
 		<div className="post">
 			<h3 className="title">Question: {title}</h3>
 			<h5 className="uname">Posted By:{username}</h5>
