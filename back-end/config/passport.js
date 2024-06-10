@@ -8,19 +8,23 @@ passport.use(new GoogleStrategy({
     callbackURL: "/auth/google/callback"
 },
 async (accessToken, refreshToken, profile, done) => {
-    const existingUser = await User.findOne({ googleId: profile.id });
+    try {
+        const existingUser = await User.findOne({ googleId: profile.id });
 
-    if (existingUser) {
-        return done(null, existingUser);
+        if (existingUser) {
+            return done(null, existingUser);
+        }
+
+        const user = new User({
+            username: profile.displayName,
+            googleId: profile.id
+        });
+
+        await user.save();
+        done(null, user);
+    } catch (error) {
+        done(error);
     }
-
-    const user = new User({
-        username: profile.displayName,
-        googleId: profile.id
-    });
-
-    await user.save();
-    done(null, user);
 }
 ));
 
@@ -28,6 +32,11 @@ passport.serializeUser((user, done) => {
     done(null, user.id);
 });
 
-passport.deserializeUser((id, done) => {
-    User.findById(id, (err, user) => done(err, user));
+passport.deserializeUser(async (id, done) => {
+    try {
+        const user = await User.findById(id);
+        done(null, user);
+    } catch (err) {
+        done(err, null);
+    }
 });

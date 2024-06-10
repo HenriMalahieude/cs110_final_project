@@ -3,14 +3,22 @@ const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    isAdmin: { type: Boolean, default: false }
+    password: {
+        type: String,
+        required: function() {
+            return !this.googleId;
+        }
+    },
+    isAdmin: { type: Boolean, default: false },
+    googleId: { type: String, unique: true, sparse: true },
 });
 
-// Hash password before saving
+// Hash password before saving, if password is provided
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
-    this.password = await bcrypt.hash(this.password, 10);
+    if (this.password) {
+        this.password = await bcrypt.hash(this.password, 10);
+    }
     next();
 });
 
