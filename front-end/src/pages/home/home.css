@@ -15,9 +15,11 @@
     margin-top: 5em;
 }
 
-.search-content {
+.search-section {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
 .reg-log-button {

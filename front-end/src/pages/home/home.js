@@ -13,8 +13,8 @@ function goToLogin() {
 }
 
 
-export function Home() {
-
+export function Home({username}) {
+	if(!username) {
 	return (
 	<>
 		<div className="home-cont">
@@ -24,11 +24,23 @@ export function Home() {
 				<button className="reg-log-button" onClick={goToLogin}>Login</button>
 				<br />				
 			</div>
-			<div className="search-content">
-				{/* Not including since not fully implemented yet
-				<Search /> */}
+			<div className="search-section">
+				<Search />
 			</div>
 		</div>
 
 	</>);
+	} else {
+		return (
+			<>
+				<div className="home-cont">
+					<h2 className="title-text">Welcome to the General Question Board!</h2>
+					<div className="search-section">
+						<Search />
+					</div>
+				</div>
+		
+			</>);
+		
+	}
 }

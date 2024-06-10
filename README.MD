@@ -20,4 +20,5 @@ Contributions:
   * Question Board
   * Profile Page Front-end
   * Board Page Front-end
-  * View Profile Front-end
+  * Other User Profile Front-end
+  * Search Front-end
