@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './login.css'
 
 const Login = ({ setToken, username, setUsername }) => {
     const [password, setPassword] = useState('');
@@ -27,18 +28,20 @@ const Login = ({ setToken, username, setUsername }) => {
     return (
         <div>
             <h3>Login</h3>
-            <form onSubmit={onSubmit}>
-                <div>
-                    <label>Username: </label>
-                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-                </div>
-                <div>
-                    <label>Password: </label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                </div>
-                <button type="submit">Login</button>
-            </form>
-            <button onClick={googleLogin}>Login with Google</button>
+            <div className="login-section">
+                <form onSubmit={onSubmit}>
+                    <div>
+                        <label>Username: </label>
+                        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+                    </div>
+                    <div>
+                        <label>Password: </label>
+                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+                <button onClick={googleLogin}>Login with Google</button>
+            </div>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             {message && <p style={{ color: 'green' }}>{message}</p>}
         </div>

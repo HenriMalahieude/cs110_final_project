@@ -1,0 +1,29 @@
+.title-text {
+    display: flex;
+    justify-content: center;
+}
+
+.home-cont {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2em;
+}
+
+.login-content {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 5em;
+}
+
+.search-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.reg-log-button {
+    width: 25%;
+    height: 25%;
+    min-width: 70px;
+}

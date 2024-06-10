@@ -27,24 +27,18 @@ const authRouter = require('./routes/auth');
 const adminRouter = require('./routes/admin');
 const itemsRouter = require('./routes/items');
 const singleQuestionRouter = require('./routes/question');
+const manyQuestionsRouter = require('./routes/manyQuestions');
+const profileRouter = require('./routes/profile');
 
 app.use('/auth', authRouter);
 app.use('/admin', adminRouter);
 app.use('/items', itemsRouter);
 app.use('/post', singleQuestionRouter);
+// app.use('profile', profileRouter);
+// app.use('/questions', manyQuestionsRouter);
 
 app.get("/", (req, res) => {
     res.send("Welcome to the CS110 Final Project Backend!");
-});
-
-app.get("/getQuestionBoard", (req, res) => {
-    console.log("Getting Questions in a Nice JSON format!");
-    res.status(200).send("TODO");
-});
-
-app.get("/getProfile/:username", (req, res) => {
-    console.log("Getting a user known as " + req.params.username);
-    res.status(200).send("TODO");
 });
 
 const PORT = process.env.PORT || 8080;

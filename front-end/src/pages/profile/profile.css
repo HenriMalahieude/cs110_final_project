@@ -1,0 +1,51 @@
+.username-text {
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
+}
+
+.profile-image {
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-info {
+    display: flex;
+    align-content: left;
+}
+
+.profile-image {
+    margin-right: 1em;
+    width: 192px;
+    height: 192px;
+    border-radius: 90%;
+}
+
+.changePhoto {
+    display: flex;
+    align-items: center;
+    width: 25%;
+    justify-content: center;
+}
+
+.button-change-profile {
+    display: flex;
+    justify-content: center;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+}
+
+.image-upload-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.failed-text {
+    position: absolute;
+    left: 42.5%;
+    top: 45%;
+}
