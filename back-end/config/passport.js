@@ -9,13 +9,21 @@ passport.use(new GoogleStrategy({
 },
 async (accessToken, refreshToken, profile, done) => {
     try {
-        const existingUser = await User.findOne({ googleId: profile.id });
+        // Find the user by Google ID
+        let user = await User.findOne({ googleId: profile.id });
 
-        if (existingUser) {
-            return done(null, existingUser);
+        if (user) {
+            return done(null, user);
         }
 
-        const user = new User({
+        // Check for existing user by username to avoid duplicates
+        user = await User.findOne({ username: profile.displayName });
+        if (user) {
+            return done(null, user);
+        }
+
+        // Create a new user if one doesn't exist
+        user = new User({
             username: profile.displayName,
             googleId: profile.id
         });
